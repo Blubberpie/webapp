@@ -23,12 +23,10 @@ public class SecurityService {
 
     public boolean authenticate(String username, String password, HttpServletRequest request){
         if (sCHand.sqlActions().usernameExists(username)){
-            System.out.println("username exists");
             ResultSet rs = sCHand.sqlActions().getPassword(username);
             try{
                 if (rs.next()){
-//                    if (BCrypt.checkpw(password, rs.getString(1))){
-                    if (password.compareTo(rs.getString(1)) == 0){
+                    if (BCrypt.checkpw(password, rs.getString(1))){
                         request.getSession().setAttribute("username", username);
                         return true;
                     }else return false;
@@ -38,6 +36,14 @@ public class SecurityService {
                 return false;
             }
         } else return false;
+    }
+
+    public void addNewUser(String username, String password){
+        sCHand.sqlActions().updateUserTable(username, password);
+    }
+
+    public boolean isNewUser(String username){
+        return !sCHand.sqlActions().usernameExists(username);
     }
 
     public void logout(HttpServletRequest request) { request.getSession().invalidate(); }

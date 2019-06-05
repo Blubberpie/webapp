@@ -3,6 +3,7 @@ package com.blubber.homework.hw4.webapp.servlet;
 import com.blubber.homework.hw4.webapp.Routable;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 import org.apache.commons.lang.StringUtils;
+import static com.blubber.homework.hw4.webapp.utilities.ErrorMessages.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,14 +30,12 @@ public class LoginServlet extends HttpServlet implements Routable {
             if (securityService.authenticate(username, password, request)) {
                 response.sendRedirect("/");
             } else {
-                String error = "Wrong username or password";
-                request.setAttribute("error", error);
+                request.setAttribute("error", errWrongUsrPwd);
                 RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
                 rd.include(request, response);
             }
         } else {
-            String error = "Username or password is missing.";
-            request.setAttribute("error", error);
+            request.setAttribute("error", errMissingArgs);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
             rd.include(request, response);
         }

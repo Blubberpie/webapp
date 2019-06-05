@@ -9,7 +9,7 @@
     Password:<br/>
     <input type="password" name="password">
     <br><br>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Log in">
 </form>
 </body>
 </html>
