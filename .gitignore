@@ -1,7 +1,10 @@
 HELP.md
 /target/
 /main/test/
+/tomcat.*/
 !.mvn/wrapper/maven-wrapper.jar
+
+.DS_STORE
 
 ### STS ###
 .apt_generated
