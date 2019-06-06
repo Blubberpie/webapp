@@ -1,5 +1,6 @@
 package com.blubber.homework.hw4.webapp;
 
+import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 import com.blubber.homework.hw4.webapp.utilities.SQLActions;
 import com.blubber.homework.hw4.webapp.utilities.SQLConnectionHandler;
@@ -20,8 +21,10 @@ public class WebApp {
         SQLConnectionHandler sqlConnectionHandler = new SQLConnectionHandler();
 
         SecurityService securityService = new SecurityService(sqlConnectionHandler);
+        DatabaseService databaseService = new DatabaseService(sqlConnectionHandler);
         ServletRouter servletRouter = new ServletRouter();
         servletRouter.setSecurityService(securityService);
+        servletRouter.setDatabaseService(databaseService);
 
         Context ctx;
         try{

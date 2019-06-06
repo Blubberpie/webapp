@@ -64,4 +64,14 @@ public class SQLActions {
         }
         return null;
     }
+
+    public ResultSet getAllUsers(){
+        if (conn != null){
+            try{
+                PreparedStatement preparedStatement = conn.prepareStatement(String.format(sqlGetUsers, tUsername, tUser));
+                return preparedStatement.executeQuery();
+            }catch (SQLException ex){ ex.printStackTrace(); }
+        }
+        return null;
+    }
 }

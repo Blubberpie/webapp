@@ -36,7 +36,7 @@
 
 <!--    <servlet>-->
 <!--        <servlet-name>signupServlet</servlet-name>-->
-<!--        <servlet-class>com.blubber.homework.hw4.webapp.servlet.SignupServlet</servlet-class>-->
+<!--        <servlet-class>com.blubber.homework.hw4.webapp.servlet.AddUserServlett</servlet-class>-->
 <!--    </servlet>-->
 <!--    <servlet-mapping>-->
 <!--        <servlet-name>signupServlet</servlet-name>-->

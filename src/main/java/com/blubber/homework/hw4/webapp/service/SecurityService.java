@@ -38,13 +38,5 @@ public class SecurityService {
         } else return false;
     }
 
-    public void addNewUser(String username, String password){
-        sCHand.sqlActions().updateUserTable(username, password);
-    }
-
-    public boolean isNewUser(String username){
-        return !sCHand.sqlActions().usernameExists(username);
-    }
-
     public void logout(HttpServletRequest request) { request.getSession().invalidate(); }
 }

@@ -1,6 +1,7 @@
 package com.blubber.homework.hw4.webapp.servlet;
 
 import com.blubber.homework.hw4.webapp.Routable;
+import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 import org.apache.commons.lang.StringUtils;
 import static com.blubber.homework.hw4.webapp.utilities.ErrorMessages.*;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet implements Routable {
 
     private SecurityService securityService;
+    private DatabaseService databaseService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,4 +50,7 @@ public class LoginServlet extends HttpServlet implements Routable {
 
     @Override
     public void setSecurityService(SecurityService securityService){ this.securityService = securityService; }
+
+    @Override
+    public void setDatabaseService(DatabaseService databaseService){ this.databaseService = databaseService;}
 }

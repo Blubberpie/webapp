@@ -1,6 +1,7 @@
 package com.blubber.homework.hw4.webapp.servlet;
 
 import com.blubber.homework.hw4.webapp.Routable;
+import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet implements Routable {
 
     private SecurityService securityService;
+    private DatabaseService databaseService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
@@ -28,4 +30,7 @@ public class LogoutServlet extends HttpServlet implements Routable {
 
     @Override
     public void setSecurityService(SecurityService securityService){ this.securityService = securityService; }
+
+    @Override
+    public void setDatabaseService(DatabaseService databaseService){ this.databaseService = databaseService;}
 }

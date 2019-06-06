@@ -18,6 +18,9 @@ public class SQLCommands {
     static final String sqlUpdateUserTable = "INSERT INTO " +
                                             "%s (%s, %s) " +
                                             "VALUES (\'%s\', \'%s\');";
+
+    // QUERY //
     static final String sqlGetUsername = "SELECT 1 FROM %s WHERE %s = \'%s\';";
     static final String sqlGetPassword = "SELECT %s FROM %s WHERE %s = \'%s\';";
+    static final String sqlGetUsers = "SELECT %s FROM %s;";
 }
