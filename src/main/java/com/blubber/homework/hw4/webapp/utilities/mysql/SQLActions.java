@@ -1,4 +1,4 @@
-package com.blubber.homework.hw4.webapp.utilities;
+package com.blubber.homework.hw4.webapp.utilities.mysql;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -7,10 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.blubber.homework.hw4.webapp.utilities.ConnectionProperties.connSchemaName;
-import static com.blubber.homework.hw4.webapp.utilities.SchemaProperties.*;
-import static com.blubber.homework.hw4.webapp.utilities.SchemaProperties.tUsername;
-import static com.blubber.homework.hw4.webapp.utilities.SQLCommands.*;
+import static com.blubber.homework.hw4.webapp.utilities.properties.ConnectionProperties.connSchemaName;
+import static com.blubber.homework.hw4.webapp.utilities.properties.SchemaProperties.*;
+import static com.blubber.homework.hw4.webapp.utilities.properties.SchemaProperties.tUsername;
+import static com.blubber.homework.hw4.webapp.utilities.mysql.SQLCommands.*;
 
 public class SQLActions {
 
@@ -71,6 +71,16 @@ public class SQLActions {
                 PreparedStatement preparedStatement = conn.prepareStatement(String.format(sqlGetUsers, tUsername, tUser));
                 return preparedStatement.executeQuery();
             }catch (SQLException ex){ ex.printStackTrace(); }
+        }
+        return null;
+    }
+
+    public ResultSet getUserInfo(String username){
+        if (conn != null){
+            try{
+                PreparedStatement preparedStatement = conn.prepareStatement(String.format(sqlGetUserInfo, tUser, tUsername, username));
+                return preparedStatement.executeQuery();
+            }catch (SQLException ex) { ex.printStackTrace(); }
         }
         return null;
     }

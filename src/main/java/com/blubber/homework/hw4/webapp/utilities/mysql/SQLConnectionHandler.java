@@ -1,6 +1,6 @@
-package com.blubber.homework.hw4.webapp.utilities;
+package com.blubber.homework.hw4.webapp.utilities.mysql;
 
-import static com.blubber.homework.hw4.webapp.utilities.ConnectionProperties.*;
+import static com.blubber.homework.hw4.webapp.utilities.properties.ConnectionProperties.*;
 
 import java.sql.*;
 import java.util.Properties;

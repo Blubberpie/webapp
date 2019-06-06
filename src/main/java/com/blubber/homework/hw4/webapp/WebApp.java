@@ -2,8 +2,7 @@ package com.blubber.homework.hw4.webapp;
 
 import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
-import com.blubber.homework.hw4.webapp.utilities.SQLActions;
-import com.blubber.homework.hw4.webapp.utilities.SQLConnectionHandler;
+import com.blubber.homework.hw4.webapp.utilities.mysql.SQLConnectionHandler;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;

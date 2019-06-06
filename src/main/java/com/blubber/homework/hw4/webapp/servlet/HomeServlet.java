@@ -3,6 +3,8 @@ package com.blubber.homework.hw4.webapp.servlet;
 import com.blubber.homework.hw4.webapp.Routable;
 import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
+import com.blubber.homework.hw4.webapp.utilities.datamodels.User;
+import com.blubber.homework.hw4.webapp.utilities.mysql.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,14 +27,17 @@ public class HomeServlet extends HttpServlet implements Routable {
 
     private SecurityService securityService;
     private DatabaseService databaseService;
-    private List<String> currentUserList = new LinkedList<>();
+    private List<String> userList = new LinkedList<>(); //todo: bad for memory
+    private User currentUser = null;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean authorized = securityService.isAuthorized(request);
         if (authorized){
             String username = (String) request.getSession().getAttribute("username");
-            currentUserList = databaseService.getUserList();
+            currentUser = databaseService.getUserInfo(username);
+            userList = databaseService.getUserList();
+            request.setAttribute("userData", currentUser);
             dispatch(request, response, "username", username);
         } else {
             response.sendRedirect("/login");
@@ -44,7 +50,7 @@ public class HomeServlet extends HttpServlet implements Routable {
                           String value) throws ServletException, IOException{
 
         request.setAttribute(attribute, value);
-        request.setAttribute("userList", currentUserList); // Keep the list visible
+        request.setAttribute("userList", userList); // Keep the list visible
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
         rd.include(request, response);
     }
@@ -58,8 +64,8 @@ public class HomeServlet extends HttpServlet implements Routable {
                 if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
                     if (databaseService.isNewUser(username)) {
                         databaseService.addNewUser(username, password);
-                        currentUserList.add(username);
-                        request.setAttribute("userList", currentUserList);
+                        userList.add(username);
+                        request.setAttribute("userList", userList);
                         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
                         rd.include(request, response);
                     } else dispatch(request, response, "error", errUsernameExists);

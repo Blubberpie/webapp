@@ -1,4 +1,4 @@
-package com.blubber.homework.hw4.webapp.utilities;
+package com.blubber.homework.hw4.webapp.utilities.properties;
 
 public class ConnectionProperties {
     public static final String connUsername = "root";

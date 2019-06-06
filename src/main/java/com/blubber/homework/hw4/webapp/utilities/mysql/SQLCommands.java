@@ -1,4 +1,4 @@
-package com.blubber.homework.hw4.webapp.utilities;
+package com.blubber.homework.hw4.webapp.utilities.mysql;
 
 public class SQLCommands {
 
@@ -23,4 +23,5 @@ public class SQLCommands {
     static final String sqlGetUsername = "SELECT 1 FROM %s WHERE %s = \'%s\';";
     static final String sqlGetPassword = "SELECT %s FROM %s WHERE %s = \'%s\';";
     static final String sqlGetUsers = "SELECT %s FROM %s;";
+    static final String sqlGetUserInfo = "SELECT * FROM %s WHERE %s = \'%s\';";
 }

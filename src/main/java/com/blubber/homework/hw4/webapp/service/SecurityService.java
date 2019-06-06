@@ -1,7 +1,6 @@
 package com.blubber.homework.hw4.webapp.service;
 
-import com.blubber.homework.hw4.webapp.utilities.SQLConnectionHandler;
-import org.apache.commons.lang.StringUtils;
+import com.blubber.homework.hw4.webapp.utilities.mysql.SQLConnectionHandler;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;

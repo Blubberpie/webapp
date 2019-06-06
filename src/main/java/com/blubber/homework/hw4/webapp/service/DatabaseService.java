@@ -1,13 +1,15 @@
 package com.blubber.homework.hw4.webapp.service;
 
-import com.blubber.homework.hw4.webapp.utilities.SQLConnectionHandler;
+import com.blubber.homework.hw4.webapp.utilities.datamodels.User;
+import com.blubber.homework.hw4.webapp.utilities.mysql.ObjectMapper;
+import com.blubber.homework.hw4.webapp.utilities.mysql.SQLConnectionHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.blubber.homework.hw4.webapp.utilities.SchemaProperties.*;
+import static com.blubber.homework.hw4.webapp.utilities.properties.SchemaProperties.*;
 
 public class DatabaseService {
 
@@ -34,5 +36,10 @@ public class DatabaseService {
             }
         }catch(SQLException ex){ ex.printStackTrace(); }
         return ret;
+    }
+
+    public User getUserInfo(String username){
+        ResultSet rs = sCHand.sqlActions().getUserInfo(username);
+        return ObjectMapper.makeUser(rs);
     }
 }

@@ -6,7 +6,14 @@
 <h2>Welcome, ${username}</h2>
 <a href="/logout">Log out</a><br/>
 <br/>
-<h3>Add a New User</h3>
+<h3>Your Profile</h3>
+<p style="border:2px; border-style:solid; padding: 1em;">
+    <strong>Username:</strong> ${userData.getUsername()}<br/>
+    <strong>First name:</strong> ${userData.getFirstName()}<br/>
+    <strong>Last name:</strong> ${userData.getLastName()}<br/>
+    <strong>Birth year:</strong> ${userData.getBirthYear()}<br/>
+</p>
+<h3>Add a new user</h3>
 <p style="color:firebrick">${error}</p>
 <form action="/" method="post" style="border:2px; border-style:solid; padding: 1em;">
     Create a username:<br/>
