@@ -18,6 +18,12 @@ public class SQLCommands {
     static final String sqlUpdateUserTable = "INSERT INTO " +
                                             "%s (%s, %s) " +
                                             "VALUES (\'%s\', \'%s\');";
+    static final String sqlUpdateColumn = "UPDATE %s " +
+            "SET %s = \'%s\' " +
+            "WHERE %s = \'%s\';";
+    static final String sqlUpdateBirthYear = "UPDATE %s " +
+            "SET %s = %d " +
+            "WHERE %s = \'%s\';";
 
     // QUERY //
     static final String sqlGetUsername = "SELECT 1 FROM %s WHERE %s = \'%s\';";

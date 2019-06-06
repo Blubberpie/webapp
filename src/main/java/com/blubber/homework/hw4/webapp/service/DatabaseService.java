@@ -23,6 +23,26 @@ public class DatabaseService {
         sCHand.sqlActions().updateUserTable(username, password);
     }
 
+    public void updateUsername(String oldUsername, String newUsername){
+        sCHand.sqlActions().updateUsername(oldUsername, newUsername);
+    }
+
+    public void updatePassword(String username, String password){
+        sCHand.sqlActions().updatePassword(username, password);
+    }
+
+    public void updateFirstName(String username, String newFirstName){
+        sCHand.sqlActions().updateFirstName(username, newFirstName);
+    }
+
+    public void updateLastName(String username, String newLastName){
+        sCHand.sqlActions().updateLastName(username, newLastName);
+    }
+
+    public void updateBirthYear(String username, int newBirthYear){
+        sCHand.sqlActions().updateBirthYear(username, newBirthYear);
+    }
+
     public boolean isNewUser(String username){
         return !sCHand.sqlActions().usernameExists(username);
     }

@@ -44,6 +44,31 @@ public class SQLActions {
         executeMySQLUpdate(String.format(sqlUpdateUserTable, tUser, tUsername, tPassword, username, password));
     }
 
+    public void updateUsername(String oldUsername, String newUsername){
+        executeMySQLUpdate(String.format(sqlUpdateColumn,
+                tUser, tUsername, newUsername, tUsername, oldUsername));
+    }
+
+    public void updatePassword(String username, String newPassword){
+        executeMySQLUpdate(String.format(sqlUpdateColumn,
+                tUser, tPassword, newPassword, tUsername, username));
+    }
+
+    public void updateFirstName(String username, String newFirstName){
+        executeMySQLUpdate(String.format(sqlUpdateColumn,
+                tUser, tFirstName, newFirstName, tUsername, username));
+    }
+
+    public void updateLastName(String username, String newLastName){
+        executeMySQLUpdate(String.format(sqlUpdateColumn,
+                tUser, tLastName, newLastName, tUsername, username));
+    }
+
+    public void updateBirthYear(String username, int newBirthYear){
+        executeMySQLUpdate(String.format(sqlUpdateBirthYear,
+                tUser, tBirthYear, newBirthYear, tUsername, username));
+    }
+
     public boolean usernameExists(String username){
         if (conn != null) {
             try{

@@ -4,6 +4,6 @@ public class ConnectionProperties {
     public static final String connUsername = "root";
     public static final String connPassword = "";
     public static final String connSchemaName = "webapp_db";
-    public static final String connPort = "3306";
+    private static final String connPort = "3306";
     public static final String connectionString = "jdbc:mysql://127.0.0.1:" + connPort;
 }

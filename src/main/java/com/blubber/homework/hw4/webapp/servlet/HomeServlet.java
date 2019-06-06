@@ -4,7 +4,6 @@ import com.blubber.homework.hw4.webapp.Routable;
 import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 import com.blubber.homework.hw4.webapp.utilities.datamodels.User;
-import com.blubber.homework.hw4.webapp.utilities.mysql.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -16,11 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.blubber.homework.hw4.webapp.utilities.ErrorMessages.*;
+import static com.blubber.homework.hw4.webapp.utilities.Messages.*;
 
 @WebServlet("/")
 public class HomeServlet extends HttpServlet implements Routable {

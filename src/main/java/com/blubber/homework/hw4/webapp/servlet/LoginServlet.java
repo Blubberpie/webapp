@@ -4,7 +4,7 @@ import com.blubber.homework.hw4.webapp.Routable;
 import com.blubber.homework.hw4.webapp.service.DatabaseService;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 import org.apache.commons.lang.StringUtils;
-import static com.blubber.homework.hw4.webapp.utilities.ErrorMessages.*;
+import static com.blubber.homework.hw4.webapp.utilities.Messages.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,8 +22,13 @@ public class LoginServlet extends HttpServlet implements Routable {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-        rd.include(request, response);
+        boolean authorized = securityService.isAuthorized(request);
+        if (!authorized) {
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
+            rd.include(request, response);
+        } else {
+            response.sendRedirect("/");
+        }
     }
 
     @Override
