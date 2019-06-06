@@ -9,11 +9,13 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/signup")
 public class SignupServlet extends HttpServlet implements Routable {
 
     private SecurityService securityService;
@@ -45,7 +47,7 @@ public class SignupServlet extends HttpServlet implements Routable {
             }
         } else {
             request.setAttribute("pwdUnmatchedError", errUnmatchedPwd);
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/signup.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("src/main/webapp/WEB-INF/signup.jsp");
             rd.include(request, response);
         }
     }

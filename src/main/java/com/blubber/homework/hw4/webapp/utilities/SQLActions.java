@@ -1,5 +1,7 @@
 package com.blubber.homework.hw4.webapp.utilities;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import static com.blubber.homework.hw4.webapp.utilities.ConnectionProperties.connSchemaName;
 import static com.blubber.homework.hw4.webapp.utilities.SchemaProperties.*;
 import static com.blubber.homework.hw4.webapp.utilities.SchemaProperties.tUsername;
+import static com.blubber.homework.hw4.webapp.utilities.SQLCommands.*;
 
 public class SQLActions {
 
@@ -24,36 +27,27 @@ public class SQLActions {
 
     // todo: move all sql commands to own class for clean code
      void initializeSchema(){
-        String sqlCreateSchema = String.format("CREATE SCHEMA IF NOT EXISTS %s;", connSchemaName);
-        String sqlSwitchToSchema = String.format("USE %s;", connSchemaName);
-        String sqlCreateUser = String.format("CREATE TABLE IF NOT EXISTS %s(" +
-                        "%s VARCHAR(30) NOT NULL," +
-                        "%s VARCHAR(72) NOT NULL," +
-                        "PRIMARY KEY (%s));",
-                tUser, tUsername, tPassword, tUsername
-        );
-
-        executeMySQLUpdate(sqlCreateSchema);
-        executeMySQLUpdate(sqlSwitchToSchema);
-        executeMySQLUpdate(sqlCreateUser);
+        executeMySQLUpdate(String.format(sqlCreateSchema, connSchemaName)); // create schema if not exists
+        executeMySQLUpdate(String.format(sqlSwitchToSchema, connSchemaName)); // use schema
+        executeMySQLUpdate(String.format(sqlCreateUser, // create user table if not exists
+                tUser, tUsername, tPassword,
+                tFirstName, tLastName, tBirthYear,
+                tUsername));
+        String firstUser = "whodidnothingwrong";
+        if (!usernameExists(firstUser)) {
+            updateUserTable(firstUser, BCrypt.hashpw("thanos", BCrypt.gensalt()));
+        }
     }
 
     // todo: check redundant null checkers
     public void updateUserTable(String username, String password){
-        String action = String.format("INSERT INTO " +
-                        "%s (%s, %s) " +
-                        "VALUES (\'%s\', \'%s\');",
-                tUser, tUsername, tPassword, username, password);
-
-        executeMySQLUpdate(action);
+        executeMySQLUpdate(String.format(sqlUpdateUserTable, tUser, tUsername, tPassword, username, password));
     }
 
     public boolean usernameExists(String username){
-        String action = String.format("SELECT 1 FROM %s WHERE %s = \'%s\';",
-                tUser, tUsername, username);
         if (conn != null) {
             try{
-                PreparedStatement preparedStatement = conn.prepareStatement(action);
+                PreparedStatement preparedStatement = conn.prepareStatement(String.format(sqlGetUsername, tUser, tUsername, username));
                 ResultSet rs = preparedStatement.executeQuery();
                 return rs.next();
             }catch(SQLException ex){ ex.printStackTrace(); }
@@ -62,11 +56,9 @@ public class SQLActions {
     }
 
     public ResultSet getPassword(String username){
-        String action = String.format("SELECT %s FROM %s WHERE %s = \'%s\';",
-                tPassword, tUser, tUsername, username);
         if (conn != null){
             try {
-                PreparedStatement preparedStatement = conn.prepareStatement(action);
+                PreparedStatement preparedStatement = conn.prepareStatement(String.format(sqlGetPassword, tPassword, tUser, tUsername, username));
                 return preparedStatement.executeQuery();
             }catch (SQLException ex){ ex.printStackTrace(); }
         }

@@ -3,6 +3,7 @@ package com.blubber.homework.hw4.webapp;
 import com.blubber.homework.hw4.webapp.service.SecurityService;
 import com.blubber.homework.hw4.webapp.servlet.HomeServlet;
 import com.blubber.homework.hw4.webapp.servlet.LoginServlet;
+import com.blubber.homework.hw4.webapp.servlet.LogoutServlet;
 import com.blubber.homework.hw4.webapp.servlet.SignupServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
@@ -19,6 +20,7 @@ public class ServletRouter {
     static{
         routables.add(HomeServlet.class);
         routables.add(LoginServlet.class);
+        routables.add(LogoutServlet.class);
         routables.add(SignupServlet.class);
     }
 
