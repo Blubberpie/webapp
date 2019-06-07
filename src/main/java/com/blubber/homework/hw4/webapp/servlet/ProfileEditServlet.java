@@ -25,7 +25,6 @@ public class ProfileEditServlet extends HttpServlet implements Routable {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean authorized = securityService.isAuthorized(request);
         if (authorized) {
-            System.out.println("here");
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/editprofile.jsp");
             rd.include(request, response);
         }else{
