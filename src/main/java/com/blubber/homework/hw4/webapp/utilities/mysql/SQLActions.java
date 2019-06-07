@@ -69,6 +69,11 @@ public class SQLActions {
                 tUser, tBirthYear, newBirthYear, tUsername, username));
     }
 
+    public void removeUser(String username){
+        executeMySQLUpdate(String.format(sqlRemoveUser,
+                tUser, tUsername, username));
+    }
+
     public boolean usernameExists(String username){
         if (conn != null) {
             try{

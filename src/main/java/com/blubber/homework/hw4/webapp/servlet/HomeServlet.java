@@ -25,18 +25,22 @@ public class HomeServlet extends HttpServlet implements Routable {
 
     private SecurityService securityService;
     private DatabaseService databaseService;
-    private List<String> userList = new LinkedList<>(); //todo: bad for memory
-    private User currentUser = null;
+
+    private void refreshData(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException{
+        String username = (String) request.getSession().getAttribute("username");
+        User currentUser = databaseService.getUserInfo(username);
+        List<String> userList = databaseService.getUserList();
+        request.setAttribute("userData", currentUser); // Keep profile visible
+        request.setAttribute("userList", userList); // Keep the list visible
+        dispatch(request, response, "username", username);
+    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean authorized = securityService.isAuthorized(request);
         if (authorized){
-            String username = (String) request.getSession().getAttribute("username");
-            currentUser = databaseService.getUserInfo(username);
-            userList = databaseService.getUserList();
-            request.setAttribute("userData", currentUser);
-            dispatch(request, response, "username", username);
+            refreshData(request, response);
         } else {
             response.sendRedirect("/login");
         }
@@ -48,27 +52,49 @@ public class HomeServlet extends HttpServlet implements Routable {
                           String value) throws ServletException, IOException{
 
         request.setAttribute(attribute, value);
-        request.setAttribute("userList", userList); // Keep the list visible
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
         rd.include(request, response);
+    }
+
+    private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("new_username");
+        String password = BCrypt.hashpw(request.getParameter("new_password"), BCrypt.gensalt());
+        if (BCrypt.checkpw(request.getParameter("password_confirm"), password)) {
+            if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
+                if (databaseService.isNewUser(username)) {
+                    databaseService.addNewUser(username, password);
+                    request.setAttribute("userAdded", msgUserAdded);
+                    refreshData(request, response);
+                } else dispatch(request, response, "error", errUsernameExists);
+            } else dispatch(request, response, "error", errMissingArgs);
+        } else dispatch(request, response, "pwdUnmatchedError", errUnmatchedPwd);
+    }
+
+    private void removeUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userToRemove = request.getParameter("user_to_remove");
+        if (!StringUtils.isBlank(userToRemove)){
+            databaseService.removeUser(userToRemove);
+            request.setAttribute("userRemoved", msgUserRemoved);
+            refreshData(request, response);
+        } else {
+            dispatch(request, response, "userRemoved", errNoUserGiven);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (securityService.isAuthorized(request)) {
-            String username = request.getParameter("new_username");
-            String password = BCrypt.hashpw(request.getParameter("new_password"), BCrypt.gensalt());
-            if (BCrypt.checkpw(request.getParameter("password_confirm"), password)) {
-                if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
-                    if (databaseService.isNewUser(username)) {
-                        databaseService.addNewUser(username, password);
-                        userList.add(username);
-                        request.setAttribute("userList", userList);
-                        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
-                        rd.include(request, response);
-                    } else dispatch(request, response, "error", errUsernameExists);
-                } else dispatch(request, response, "error", errMissingArgs);
-            } else dispatch(request, response, "pwdUnmatchedError", errUnmatchedPwd);
+            String addOrRemove = request.getParameter("add_remove_user");
+            switch (addOrRemove){
+                case "add":
+                    addUser(request, response);
+                    break;
+                case "remove":
+                    removeUser(request, response);
+                    break;
+                default:
+                    break;
+            }
         } else response.sendRedirect("/login");
     }
 

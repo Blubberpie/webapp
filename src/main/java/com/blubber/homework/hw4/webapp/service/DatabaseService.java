@@ -43,6 +43,10 @@ public class DatabaseService {
         sCHand.sqlActions().updateBirthYear(username, newBirthYear);
     }
 
+    public void removeUser(String username){
+        sCHand.sqlActions().removeUser(username);
+    }
+
     public boolean isNewUser(String username){
         return !sCHand.sqlActions().usernameExists(username);
     }

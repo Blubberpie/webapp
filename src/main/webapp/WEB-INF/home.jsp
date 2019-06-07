@@ -15,9 +15,11 @@
     <strong>Birth year:</strong> ${userData.getBirthYear()}<br/>
 </p>
 <h3>Add a new user</h3>
+<p style="color:green">${userAdded}</p>
 <p style="color:firebrick">${error}</p>
 <form action="/" method="post" style="border:2px; border-style:solid; padding: 1em;">
     Create a username:<br/>
+    <input type="hidden" name="add_remove_user" value="add"/>
     <input type="text" name="new_username" required/>
     <br/>
     Create a password:<br/>
@@ -31,11 +33,28 @@
 </form>
 <br/>
 <h3>All users on this server:</h3> <br/>
+<p style="color:firebrick">${userRemoved}</p>
 <table style="border:2px; border-style:solid; padding: 1em;">
     <c:forEach items="${userList}" var="usr">
-        <tr>
-            <td>${usr}</td>
-        </tr>
+        <tbody style="vertical-align: center">
+            <tr>
+                <td>${usr}</td>
+                <td>
+                    <form action="/" method="post">
+                        <input type="hidden" name="add_remove_user" value="remove">
+                        <c:choose>
+                            <c:when test="${usr != username}">
+                                <input type="hidden" name="user_to_remove" value="${usr}"/>
+                                <input type="submit" value="Remove user" onclick="{return confirm('Are you sure you want to remove this user?')}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <p style="color:firebrick">Cannot remove self!</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
     </c:forEach>
 </table>
 </body>

@@ -24,6 +24,9 @@ public class SQLCommands {
     static final String sqlUpdateBirthYear = "UPDATE %s " +
             "SET %s = %d " +
             "WHERE %s = \'%s\';";
+    static final String sqlRemoveUser = "DELETE FROM %s " +
+            "WHERE %s = \'%s\';";
+
 
     // QUERY //
     static final String sqlGetUsername = "SELECT 1 FROM %s WHERE %s = \'%s\';";
