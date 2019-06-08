@@ -51,7 +51,7 @@
     New birth year:
     <input type="hidden" name="edit_form" value="change_birth_year"/>
     <input type="number" min="1865" max="2019" name="changed_birth_year" required/>
-    <input type="submit" value="Change birth name"/>
+    <input type="submit" value="Change birth year"/>
 </form>
 </body>
 </html>
