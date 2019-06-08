@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.blubber.homework.hw4.webapp.utilities.Messages.*;
@@ -65,9 +64,18 @@ public class HomeServlet extends HttpServlet implements Routable {
                     databaseService.addNewUser(username, password);
                     request.setAttribute("userAdded", msgUserAdded);
                     refreshData(request, response);
-                } else dispatch(request, response, "error", errUsernameExists);
-            } else dispatch(request, response, "error", errMissingArgs);
-        } else dispatch(request, response, "pwdUnmatchedError", errUnmatchedPwd);
+                } else {
+                    request.setAttribute("error", errUsernameExists);
+                    refreshData(request, response);
+                }
+            } else {
+                request.setAttribute("error", errMissingArgs);
+                refreshData(request, response);
+            }
+        } else {
+            request.setAttribute("error", errUnmatchedPwd);
+            refreshData(request, response);
+        }
     }
 
     private void removeUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,6 +85,7 @@ public class HomeServlet extends HttpServlet implements Routable {
             request.setAttribute("userRemoved", msgUserRemoved);
             refreshData(request, response);
         } else {
+            // probably will never reach here
             dispatch(request, response, "userRemoved", errNoUserGiven);
         }
     }

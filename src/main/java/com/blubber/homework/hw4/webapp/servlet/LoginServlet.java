@@ -20,15 +20,19 @@ public class LoginServlet extends HttpServlet implements Routable {
     private SecurityService securityService;
     private DatabaseService databaseService;
 
+    private void dispatch(HttpServletRequest request,
+                          HttpServletResponse response) throws ServletException, IOException{
+
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
+        rd.include(request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean authorized = securityService.isAuthorized(request);
         if (!authorized) {
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-            rd.include(request, response);
-        } else {
-            response.sendRedirect("/");
-        }
+            dispatch(request, response);
+        } else response.sendRedirect("/");
     }
 
     @Override
@@ -40,13 +44,11 @@ public class LoginServlet extends HttpServlet implements Routable {
                 response.sendRedirect("/");
             } else {
                 request.setAttribute("error", errWrongUsrPwd);
-                RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-                rd.include(request, response);
+                dispatch(request, response);
             }
         } else {
             request.setAttribute("error", errMissingArgs);
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-            rd.include(request, response);
+            dispatch(request, response);
         }
     }
 
