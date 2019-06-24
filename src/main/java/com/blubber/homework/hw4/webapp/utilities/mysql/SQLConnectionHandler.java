@@ -20,7 +20,7 @@ public class SQLConnectionHandler {
         try {
             Properties connectionProps = new Properties(){{
                 put("user", connUsername);
-                put("connPassword", connPassword);
+                put("password", connPassword);
             }};
             return DriverManager.getConnection(connectionString, connectionProps);
         }
